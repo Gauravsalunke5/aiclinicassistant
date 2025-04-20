@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: 'postgres:latest'
+    environment:
+      - 'POSTGRES_DB=ai_clinic_assistant_db'
+      - 'POSTGRES_PASSWORD=secret'  # Use a stronger password for production
+      - 'POSTGRES_USER=ai_clinic_assistant_user'
+    ports:
+      - '5432:5432'  # Exposing PostgreSQL on port 5432
+    volumes:
+      - ai_clinic_assistant_db_data:/var/lib/postgresql/data  # Persistent data storage
+    restart: unless-stopped
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com  # Change this for security
+      PGADMIN_DEFAULT_PASSWORD: admin  # Change this for security
+    ports:
+      - "8081:80"  # Access pgAdmin on port 8081
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+volumes:
+  ai_clinic_assistant_db_data:
+    driver: local

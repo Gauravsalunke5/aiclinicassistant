@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Chat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #chatBox {
+            width: 100%;
+            height: 300px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+        #userInput {
+            width: 80%;
+            padding: 10px;
+        }
+        #sendBtn {
+            padding: 10px 15px;
+        }
+        .user-message, .bot-message {
+            margin: 10px 0;
+        }
+        .user-message {
+            color: blue;
+        }
+        .bot-message {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Chat with Patient Assistant</h2>
+<div id="chatBox"></div>
+
+<input type="text" id="userInput" placeholder="Ask your question..." />
+<button id="sendBtn">Send</button>
+
+<script>
+        const chatBox = document.getElementById("chatBox");
+        const userInput = document.getElementById("userInput");
+        const sendBtn = document.getElementById("sendBtn");
+
+        // Function to append user and bot messages to chat box
+        function appendMessage(message, sender) {
+            const messageDiv = document.createElement("div");
+            messageDiv.classList.add(sender + "-message");
+            messageDiv.textContent = message;
+            chatBox.appendChild(messageDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        // Function to send message to backend and receive a response
+        async function sendMessage() {
+            const userMessage = userInput.value.trim();
+            if (!userMessage) return;
+
+            // Display user message in chat box
+            appendMessage("You: " + userMessage, "user");
+
+            // Send request to backend and get the response
+            try {
+                const response = await fetch(`/patient/chat?userMessage=${encodeURIComponent(userMessage)}`);
+                const data = await response.text();
+
+                // Display bot response in chat box
+                appendMessage("AI: " + data, "bot");
+
+            } catch (error) {
+                console.error("Error:", error);
+            }
+
+            // Clear input field
+            userInput.value = '';
+        }
+
+        // Listen for the send button click
+        sendBtn.addEventListener("click", sendMessage);
+
+        // Optionally, listen for Enter key to send message
+        userInput.addEventListener("keypress", (event) => {
+            if (event.key === "Enter") {
+                sendMessage();
+            }
+        });
+    </script>
+
+</body>
+</html>
