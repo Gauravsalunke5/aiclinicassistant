@@ -42,14 +42,12 @@ CREATE TABLE patient (
 );
 
 -- Appointment Table
-CREATE TYPE appointment_status AS ENUM ('BOOKED', 'CANCELLED', 'RESCHEDULED', 'COMPLETED');
-
 CREATE TABLE appointment (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     doctor_id UUID REFERENCES doctor(id) ON DELETE CASCADE,
     patient_id UUID REFERENCES patient(id) ON DELETE CASCADE,
     time_slot TIMESTAMP NOT NULL,
-    status appointment_status DEFAULT 'BOOKED',
+    status VARCHAR(20) DEFAULT 'BOOKED',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -59,7 +57,7 @@ CREATE TABLE visit_notes (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     appointment_id UUID REFERENCES appointment(id) ON DELETE CASCADE,
     summary TEXT,
-    prescribed_meds JSONB,
+    prescribed_meds VARCHAR(250),
     followup_date DATE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

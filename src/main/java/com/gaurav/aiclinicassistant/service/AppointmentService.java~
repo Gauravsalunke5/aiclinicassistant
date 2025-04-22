@@ -58,7 +58,7 @@ public class AppointmentService {
         appointment.setDoctor(doctor);
         appointment.setPatient(patient);
         appointment.setTimeSlot(parsedSlot);
-        appointment.setStatus(AppointmentStatus.BOOKED.name());
+        appointment.setStatus("BOOKED");
 
         log.info("Creating appointment for {} with Dr. {} at {}", patient.getFirstName(), doctor.getLastName(), parsedSlot);
         return appointmentRepository.save(appointment);
@@ -91,7 +91,7 @@ public class AppointmentService {
         Appointment appointment = appointmentRepository.findById(appointmentId)
                 .orElseThrow(() -> new IllegalArgumentException("Appointment not found: " + appointmentId));
 
-        appointment.setStatus(newStatus.name());
+        appointment.setStatus(newStatus);
         log.info("Updated appointment {} to status {}", appointmentId, newStatus);
         return appointmentRepository.save(appointment);
     }

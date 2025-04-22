@@ -2,15 +2,15 @@ package com.gaurav.aiclinicassistant.repository;
 
 import com.gaurav.aiclinicassistant.model.Appointment;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.UUID;
 
+@Repository
 public interface AppointmentRepository extends JpaRepository<Appointment, UUID> {
 
-    List<Appointment> findByDoctorId(UUID doctorId); // Find all appointments for a doctor
+    List<Appointment> findByDoctorId(UUID doctorId);
 
-    List<Appointment> findByPatientId(UUID patientId); // Find all appointments for a patient
-
-    List<Appointment> findByStatus(String status); // Find appointments by status (e.g., booked, canceled)
+    List<Appointment> findByPatientId(UUID patientId);
 }

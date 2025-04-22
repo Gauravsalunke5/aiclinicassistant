@@ -19,8 +19,8 @@ langchain4j.open-ai.chat-model.log-responses=true
 
 
 # Logging Level for LangChain4j and related packages
-logging.level.dev.langchain4j=DEBUG
-logging.level.dev.ai4j.openai4j=DEBUG
+logging.level.dev.langchain4j=INFO
+logging.level.dev.ai4j.openai4j=INFO
 
 # Spring Boot Logging Configuration (Optional)
 logging.level.org.springframework.web=INFO

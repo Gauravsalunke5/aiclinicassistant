@@ -4,19 +4,20 @@ import com.gaurav.aiclinicassistant.model.Doctor;
 import com.gaurav.aiclinicassistant.repository.DoctorRepository;
 import dev.langchain4j.agent.tool.Tool;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.lang.invoke.MethodHandles;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
 public class DoctorService {
     private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
-
     private DoctorRepository doctorRepository;
 
     // Static map for issue-to-specialty
@@ -32,11 +33,10 @@ public class DoctorService {
             "joint pain", "Rheumatology"
     );
 
+    // Recommending doctors based on the issue
     @Tool
     public List<Doctor> recommendDoctors(String issue) {
         String specialty = issueToSpecialtyMap.get(issue.toLowerCase());
-        log.info("Recommending doctors for issue='{}', matched specialty='{}'", issue, specialty);
-
         if (specialty != null) {
             return doctorRepository.findBySpecialty(specialty);
         } else {
@@ -45,32 +45,32 @@ public class DoctorService {
         }
     }
 
-    @Tool
+    // Get doctors by specialty
+    @Tool("Get doctors by specialty.")
     public List<Doctor> getDoctorsBySpecialty(String specialty) {
-        log.info("Fetching doctors by specialty='{}'", specialty);
         return doctorRepository.findBySpecialty(specialty);
     }
 
-    @Tool("GetDoctorSchedule return list as monday, tuesday, wednesday, thursday, friday, saturday, sunday")
+    // Get doctor schedule by first name
+    @Tool("Get doctor schedule by first name.")
     public List<String> getDoctorSchedule(String firstName) {
-        log.info("Fetching schedule for doctor='{}'", firstName);
-        List<Doctor> doctor = doctorRepository.findByFirstName(firstName);
-        return doctor.get(0).getDaysAvailable();
+        List<Doctor> doctors = doctorRepository.findByFirstName(firstName);
+        return doctors.isEmpty() ? List.of() : doctors.get(0).getDaysAvailable();
     }
 
+    // CRUD - Get a doctor by ID
     public Optional<Doctor> getDoctorById(UUID doctorId) {
-        log.info("Fetching doctor with ID={}", doctorId);
         return doctorRepository.findById(doctorId);
     }
 
+    // CRUD - Save a new doctor
     public Doctor saveDoctor(Doctor doctor) {
-        log.info("Saving doctor: {}", doctor.getFirstName() + " " + doctor.getLastName());
         return doctorRepository.save(doctor);
     }
 
-
+    // CRUD - Get doctor by name
+    @Tool("Get doctor by first name and/or last name.")
     public List<Doctor> getDoctorsByName(String firstName, String lastName) {
-        log.info("Fetching doctor by first name='{}', last name='{}'", firstName, lastName);
         if (firstName != null && lastName != null) {
             return doctorRepository.findByFirstNameAndLastName(firstName, lastName);
         } else if (firstName != null) {

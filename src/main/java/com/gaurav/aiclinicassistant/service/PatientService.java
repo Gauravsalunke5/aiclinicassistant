@@ -17,27 +17,28 @@ import java.util.UUID;
 @AllArgsConstructor
 public class PatientService {
     private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
-
     private PatientRepository patientRepository;
 
+    // CRUD - Get a patient by ID
     public Optional<Patient> getPatientById(UUID patientId) {
-        log.info("Fetching patient with ID={}", patientId);
         return patientRepository.findById(patientId);
     }
 
+    // CRUD - Save a new patient
     @Tool
     public Patient savePatient(Patient patient) {
-        log.info("Saving new patient with email={}", patient.getEmail());
         return patientRepository.save(patient);
     }
 
+    // Get patient by email
+    @Tool
     public Patient findPatientByEmail(String email) {
-        log.info("Searching for patient with email={}", email);
         return patientRepository.findByEmail(email).orElse(null);
     }
 
+    // Search patients by first and last name
+    @Tool
     public List<Patient> findPatientByFirstOrLastName(String firstName, String lastName) {
-        log.info("Searching for patient with first name={}, last name={}", firstName, lastName);
         if (firstName == null && lastName == null) {
             return List.of();
         }
@@ -48,5 +49,27 @@ public class PatientService {
             return patientRepository.findByFirstName(firstName);
         }
         return patientRepository.findByFirstNameAndLastName(firstName, lastName);
+    }
+
+    // Get all patients
+    @Tool
+    public List<Patient> getAllPatients() {
+        return patientRepository.findAll();
+    }
+
+    // Update patient information
+    public Patient updatePatient(UUID patientId, Patient updatedPatient) {
+        Optional<Patient> existingPatientOpt = patientRepository.findById(patientId);
+        if (existingPatientOpt.isPresent()) {
+            Patient existingPatient = existingPatientOpt.get();
+            existingPatient.setFirstName(updatedPatient.getFirstName());
+            existingPatient.setLastName(updatedPatient.getLastName());
+            existingPatient.setEmail(updatedPatient.getEmail());
+            existingPatient.setPhone(updatedPatient.getPhone());
+            return patientRepository.save(existingPatient);
+        } else {
+            log.warn("Patient with ID={} not found", patientId);
+            return null;
+        }
     }
 }

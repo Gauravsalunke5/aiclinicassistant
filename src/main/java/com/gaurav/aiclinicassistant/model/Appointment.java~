@@ -37,8 +37,9 @@ public class Appointment {
     @Column(name = "time_slot", nullable = false)
     private LocalDateTime timeSlot;
 
-    @Column(name = "status", nullable = false)
-    private String status = "BOOKED";
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false, columnDefinition = "appointment_status")
+    private AppointmentStatus status = AppointmentStatus.BOOKED;
 
 
     @Column(name = "created_at", updatable = false)
@@ -79,11 +80,11 @@ public class Appointment {
         this.timeSlot = timeSlot;
     }
 
-    public String getStatus() {
+    public AppointmentStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(AppointmentStatus status) {
         this.status = status;
     }
 

@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -16,7 +17,7 @@ import java.util.UUID;
 @Entity
  @NoArgsConstructor
 @AllArgsConstructor
-public class Patient {
+public class Patient implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -36,7 +37,9 @@ public class Patient {
     private LocalDate dob;
     private String gender;
 
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
+
 
     public UUID getId() {
         return id;
