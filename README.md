@@ -78,4 +78,6 @@ mvn spring-boot:run
 
 ### Demo viedo:
 
-https://github.com/Gauravsalunke5/aiclinicassistant/blob/main/files/demo.mp4
+
+https://github.com/user-attachments/assets/e9a6cc44-686f-4c58-b249-8986e2bc55b0
+
