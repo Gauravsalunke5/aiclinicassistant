@@ -75,3 +75,7 @@ mvn spring-boot:run
 ### 📡 Step 3: Access the Application
 #### Doctor Assistant: http://localhost:8080/doctor-chat.html
 #### Patient Assistant: http://localhost:8080/patient-chat.html
+
+### Demo viedo:
+
+https://github.com/Gauravsalunke5/aiclinicassistant/blob/main/files/demo.mp4
