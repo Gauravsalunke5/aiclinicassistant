@@ -1,0 +1,17 @@
+---
+config:
+  theme: default
+  look: handDrawn
+  layout: elk
+---
+flowchart TD
+    User(("Doctor / Patient")) -- Query --> Assistant["LangChain4j Assistant"]
+    Assistant -- Tool Calls --> DoctorService["DoctorService"] & PatientService["PatientService"] & AppointmentService["AppointmentService"] & VisitNotesService["VisitNotesService"]
+    DoctorService --> DoctorRepository["DoctorRepository"]
+    PatientService --> PatientRepository["PatientRepository"]
+    AppointmentService --> AppointmentRepository["AppointmentRepository"]
+    VisitNotesService --> VisitNotesRepository["VisitNotesRepository"] & AppointmentRepository & PatientRepository
+    DoctorRepository -- DB Query --> PostgreSQL[("PostgreSQL Database")]
+    PatientRepository -- DB Query --> PostgreSQL
+    AppointmentRepository -- DB Query --> PostgreSQL
+    VisitNotesRepository -- DB Query --> PostgreSQL
