@@ -50,14 +50,15 @@ cd aiclinicassistant
 
 ### Files involved:
 - `compose.yml`
-- `db/init/schema.sql`
-- `db/init/insert.sql`
+- `schema.sql`
+- `insert.sql`
 
 To run PostgreSQL and pgAdmin with Docker, use the following command:
 
 ```bash
 docker-compose up -d
 ```
+Once DB is setup execute the script `schema.sql` and `insert.sql` to create tables and insert data.
 
 ### 💻 Step 2: Build & Run the Application
 Build the Spring Boot application using Maven:
