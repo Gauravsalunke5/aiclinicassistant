@@ -6,6 +6,8 @@
 - 🧑‍⚕️ **Patient Assistant** – Helps patients find suitable doctors and book appointments based on symptoms or doctor availability.
 
 ---
+![flow](https://github.com/user-attachments/assets/31002d1f-f009-4855-9ebc-5062f24e0820)
+
 
 ## ✨ Features
 
