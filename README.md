@@ -6,6 +6,10 @@
 - 🧑‍⚕️ **Patient Assistant** – Helps patients find suitable doctors and book appointments based on symptoms or doctor availability.
 
 ---
+## Medium Post
+https://medium.com/@gauravsalunke15/building-an-intelligent-ai-clinic-assistant-with-langchain4j-java-spring-boot-c1bdd21b7951
+
+## Flow Diagram
 ![flow](https://github.com/user-attachments/assets/31002d1f-f009-4855-9ebc-5062f24e0820)
 
 
